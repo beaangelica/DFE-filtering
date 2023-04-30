@@ -1,0 +1,131 @@
+initialize() {
+	setSeed(3961843820490);
+
+	defineGlobal("popStateFile","10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60Kg_recap_7m8_overlaid_1o4m8.trees");
+	defineGlobal("N", 10000);
+	defineGlobal("L", 5e7);
+	defineGlobal("MU", 7e-8);
+	defineGlobal("R", 4e-8);
+	defineGlobal("Es_G", -100.0);
+	defineGlobal("b_G", 0.1);
+	
+	defineGlobal("seed_B", 3961843820490);
+	
+	initializeSLiMOptions(keepPedigrees=T);
+	initializeTreeSeq(simplificationInterval=100); // 100 is a guess, experiment to find the optimal interval
+	initializeMutationRate(MU);
+	initializeMutationType("m0", 0.5, "f", 0.0);
+	initializeMutationType("m2", 0.5, "g", Es_G, b_G);
+	m2.convertToSubstitution = F;
+	
+	initializeGenomicElementType("g1", c(m0,m2), c(0.2,1.0));
+	initializeGenomicElement(g1, 0, L-1);
+	initializeRecombinationRate(R);
+}
+1 early() {
+	sim.addSubpop("p1", N);
+}
+1 late() {
+	print("Population starts at 60K generations:" + date() + " " + time());
+	sim.readFromPopulationFile(popStateFile);
+	setSeed(3961843820490);
+	print("Population state read " + date() + " " + time());
+	
+	p1.setValue("previous_N", p1.individualCount);
+	
+	defineConstant("LOG", community.createLogFile("Log_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.csv"));
+	LOG.addCycle();
+	LOG.addCustomColumn("N(t-1)", "p1.getValue('previous_N');");
+	LOG.addCustomColumn("N(t)", "p1.individualCount;");
+	LOG.addCustomColumn("Ne_heterozygosity_all", "estimateNe_Heterozygosity_all(p1);");
+	LOG.addCustomColumn("Ne_heterozygosity_4fold", "estimateNe_Heterozygosity_fold(p1,m1);");
+	LOG.addCustomColumn("Ne_heterozygosity_0fold", "estimateNe_Heterozygosity_fold(p1,m2);");
+	LOG.addCustomColumn("Ne_inbreeding", "estimateNe_Inbreeding(p1);");
+	
+	print("_______GEN 60K: " + date() + " " + time() + "_______");
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60Kg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60Kg_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 100 individuals in 100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60Kg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(100,replace=F,outputMultiallelics=F,filePath="100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60Kg_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60Kg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60Kg_recap_7m8_overlaid_1o4m8.vcf");
+
+}
+2: late() {
+	LOG.logRow();
+	p1.setValue("previous_N", p1.individualCount);
+}
+
+
+60001 early() {
+	print("_______GEN 60K +1 early: " + date() + " " + time() + "_______");
+
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001earlyg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001earlyg_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 100 individuals in 100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001earlyg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(100,replace=F,outputMultiallelics=F,filePath="100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001earlyg_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001earlyg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001earlyg_recap_7m8_overlaid_1o4m8.vcf");
+}
+
+
+60001 late() {
+	print("_______GEN 60K +1 late: " + date() + " " + time() + "_______");
+
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001lateg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001lateg_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 100 individuals in 100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001lateg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(100,replace=F,outputMultiallelics=F,filePath="100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001lateg_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001lateg_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60001lateg_recap_7m8_overlaid_1o4m8.vcf");
+}
+
+
+60010 late() {
+	print("_______GEN 60K +10: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.tree");
+	sim.outputFull(filePath="10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 100 individuals in 100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(100,replace=F,outputMultiallelics=F,filePath="100inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_5o6m8_4r8_simp100_dfeG_Ne__60010g_recap_7m8_overlaid_1o4m8.vcf");
+	sim.simulationFinished();
+}
+
+function (float)estimateNe_Heterozygosity_fold(o<Subpopulation>$ subpop, o<MutationType>$ mutType)
+{
+	pi = calcHeterozygosity(subpop.genomes,sim.mutationsOfType(mutType));
+	return pi / (4 * MU);
+}
+
+function (float)estimateNe_Heterozygosity_all(o<Subpopulation>$ subpop)
+{
+	pi = calcHeterozygosity(subpop.genomes);
+	return pi / (4 * MU);
+}
+
+function (integer)tabulateFecundity(o<Subpopulation>$ subpop, i$ previous_N)
+{
+	parentIDs = subpop.individuals.pedigreeParentIDs;
+	rescaledParentIDs = parentIDs - min(parentIDs);
+	return tabulate(rescaledParentIDs, previous_N - 1);
+}
+
+function (float)estimateNe_Inbreeding(o<Subpopulation>$ subpop)
+{
+	previous_N = subpop.getValue("previous_N");
+	k = tabulateFecundity(subpop, previous_N);
+	return (previous_N * mean(k) - 2) / (mean(k) - 1 + var(k) / mean(k));
+}

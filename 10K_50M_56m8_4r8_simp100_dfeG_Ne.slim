@@ -1,0 +1,1068 @@
+initialize() {
+	defineGlobal("N", 10000);
+	defineGlobal("L", 5e7);
+	defineGlobal("MU", 5.6e-8);
+	defineGlobal("R", 4e-8);
+	defineGlobal("Es_G", -100.0);
+	defineGlobal("b_G", 0.1);
+	
+	defineGlobal("seed_B", 3961843820490);
+	
+	initializeSLiMOptions(keepPedigrees=T);
+	initializeTreeSeq(simplificationInterval=100); // 100 is a guess, experiment to find the optimal interval
+	initializeMutationRate(MU);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeMutationType("m2", 0.5, "g", Es_G, b_G);
+	m2.convertToSubstitution = F;
+	
+	initializeGenomicElementType("g1", m2, 1.0);
+	initializeGenomicElement(g1, 0, L-1);
+	initializeRecombinationRate(R);
+}
+1 early() {
+	sim.addSubpop("p1", N);
+}
+1 late() {
+	setSeed(seed_B);
+	print("Population state read " + date() + " " + time());
+	
+	p1.setValue("previous_N", p1.individualCount);
+	
+	defineConstant("LOG", community.createLogFile("Log_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree.csv"));
+	LOG.addCycle();
+	LOG.addCustomColumn("N(t-1)", "p1.getValue('previous_N');");
+	LOG.addCustomColumn("N(t)", "p1.individualCount;");
+	LOG.addCustomColumn("Ne_heterozygosity_all", "estimateNe_Heterozygosity_all(p1);");
+	LOG.addCustomColumn("Ne_heterozygosity_4fold", "estimateNe_Heterozygosity_fold(p1,m1);");
+	LOG.addCustomColumn("Ne_heterozygosity_0fold", "estimateNe_Heterozygosity_fold(p1,m2);");
+	LOG.addCustomColumn("Ne_inbreeding", "estimateNe_Inbreeding(p1);");
+}
+2: late() {
+	LOG.logRow();
+	p1.setValue("previous_N", p1.individualCount);
+}
+
+100 late() {
+	print("_______GEN 100: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100.binary",binary=T);
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100.vcf");
+}
+10000 late() {
+	print("_______GEN 10K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__10Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__10Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__10Kg.binary",binary=T);
+}
+20000 late() {
+	print("_______GEN 20K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__20Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__20Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__20Kg.binary",binary=T);
+}
+30000 late() {
+	print("_______GEN 30K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__30Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__30Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__30Kg.binary",binary=T);
+}
+40000 late() {
+	print("_______GEN 40K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__40Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__40Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__40Kg.binary",binary=T);
+}
+50000 late() {
+	print("_______GEN 50K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__50Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__50Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__50Kg.binary",binary=T);
+}
+60000 late() {
+	print("_______GEN 60K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__60Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__60Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__60Kg.binary",binary=T);
+}
+70000 late() {
+	print("_______GEN 70K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__70Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__70Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__70Kg.binary",binary=T);
+}
+80000 late() {
+	print("_______GEN 80K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__80Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__80Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__80Kg.binary",binary=T);
+}
+90000 late() {
+	print("_______GEN 90K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__90Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__90Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__90Kg.binary",binary=T);
+}
+100000 late() {
+	print("_______GEN 100K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__100Kg.vcf");
+}
+110000 late() {
+	print("_______GEN 110K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__110Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__110Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__110Kg.binary",binary=T);
+}
+120000 late() {
+	print("_______GEN 120K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__120Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__120Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__120Kg.binary",binary=T);
+}
+130000 late() {
+	print("_______GEN 130K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__130Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__130Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__130Kg.binary",binary=T);
+}
+140000 late() {
+	print("_______GEN 140K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__140Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__140Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__140Kg.binary",binary=T);
+}
+150000 late() {
+	print("_______GEN 150K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__150Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__150Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__150Kg.binary",binary=T);
+}
+160000 late() {
+	print("_______GEN 160K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__160Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__160Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__160Kg.binary",binary=T);
+}
+170000 late() {
+	print("_______GEN 170K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__170Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__170Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__170Kg.binary",binary=T);
+}
+180000 late() {
+	print("_______GEN 180K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__180Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__180Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__180Kg.binary",binary=T);
+}
+190000 late() {
+	print("_______GEN 190K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__190Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__190Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__190Kg.binary",binary=T);
+}
+200000 late() {
+	print("_______GEN 200K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__200Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__200Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__200Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__200Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__200Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__200Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__200Kg.vcf");
+}
+210000 late() {
+	print("_______GEN 210K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__210Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__210Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__210Kg.binary",binary=T);
+}
+220000 late() {
+	print("_______GEN 220K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__220Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__220Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__220Kg.binary",binary=T);
+}
+230000 late() {
+	print("_______GEN 230K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__230Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__230Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__230Kg.binary",binary=T);
+}
+240000 late() {
+	print("_______GEN 240K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__240Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__240Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__240Kg.binary",binary=T);
+}
+250000 late() {
+	print("_______GEN 250K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__250Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__250Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__250Kg.binary",binary=T);
+}
+260000 late() {
+	print("_______GEN 260K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__260Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__260Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__260Kg.binary",binary=T);
+}
+270000 late() {
+	print("_______GEN 270K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__270Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__270Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__270Kg.binary",binary=T);
+}
+280000 late() {
+	print("_______GEN 280K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__280Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__280Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__280Kg.binary",binary=T);
+}
+290000 late() {
+	print("_______GEN 290K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__290Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__290Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__290Kg.binary",binary=T);
+}
+300000 late() {
+	print("_______GEN 300K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__300Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__300Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__300Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__300Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__300Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__300Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__300Kg.vcf");
+}
+310000 late() {
+	print("_______GEN 310K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__310Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__310Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__310Kg.binary",binary=T);
+}
+320000 late() {
+	print("_______GEN 320K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__320Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__320Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__320Kg.binary",binary=T);
+}
+330000 late() {
+	print("_______GEN 330K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__330Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__330Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__330Kg.binary",binary=T);
+}
+340000 late() {
+	print("_______GEN 340K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__340Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__340Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__340Kg.binary",binary=T);
+}
+350000 late() {
+	print("_______GEN 350K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__350Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__350Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__350Kg.binary",binary=T);
+}
+360000 late() {
+	print("_______GEN 360K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__360Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__360Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__360Kg.binary",binary=T);
+}
+370000 late() {
+	print("_______GEN 370K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__370Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__370Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__370Kg.binary",binary=T);
+}
+380000 late() {
+	print("_______GEN 380K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__380Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__380Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__380Kg.binary",binary=T);
+}
+390000 late() {
+	print("_______GEN 390K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__390Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__390Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__390Kg.binary",binary=T);
+}
+400000 late() {
+	print("_______GEN 400K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__400Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__400Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__400Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__400Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__400Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__400Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__400Kg.vcf");
+}
+410000 late() {
+	print("_______GEN 410K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__410Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__410Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__410Kg.binary",binary=T);
+}
+420000 late() {
+	print("_______GEN 420K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__420Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__420Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__420Kg.binary",binary=T);
+}
+430000 late() {
+	print("_______GEN 430K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__430Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__430Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__430Kg.binary",binary=T);
+}
+440000 late() {
+	print("_______GEN 440K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__440Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__440Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__440Kg.binary",binary=T);
+}
+450000 late() {
+	print("_______GEN 450K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__450Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__450Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__450Kg.binary",binary=T);
+}
+460000 late() {
+	print("_______GEN 460K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__460Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__460Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__460Kg.binary",binary=T);
+}
+470000 late() {
+	print("_______GEN 470K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__470Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__470Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__470Kg.binary",binary=T);
+}
+480000 late() {
+	print("_______GEN 480K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__480Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__480Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__480Kg.binary",binary=T);
+}
+490000 late() {
+	print("_______GEN 490K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__490Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__490Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__490Kg.binary",binary=T);
+}
+500000 late() {
+	print("_______GEN 500K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__500Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__500Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne__500Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__500Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__500Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__500Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__500Kg.vcf");
+}
+510000 late() {
+	print("_______GEN 510K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__510Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__510Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__510Kg.binary",binary=T);
+}
+520000 late() {
+	print("_______GEN 520K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__520Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__520Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__520Kg.binary",binary=T);
+}
+530000 late() {
+	print("_______GEN 530K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__530Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__530Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__530Kg.binary",binary=T);
+}
+540000 late() {
+	print("_______GEN 540K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__540Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__540Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__540Kg.binary",binary=T);
+}
+550000 late() {
+	print("_______GEN 550K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__550Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__550Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__550Kg.binary",binary=T);
+}
+560000 late() {
+	print("_______GEN 560K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__560Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__560Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__560Kg.binary",binary=T);
+}
+570000 late() {
+	print("_______GEN 570K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__570Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__570Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__570Kg.binary",binary=T);
+}
+580000 late() {
+	print("_______GEN 580K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__580Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__580Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__580Kg.binary",binary=T);
+}
+590000 late() {
+	print("_______GEN 590K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__590Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__590Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__590Kg.binary",binary=T);
+}
+600000 late() {
+	print("_______GEN 600K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__600Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__600Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__600Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__600Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__600Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__600Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__600Kg.vcf");
+}
+610000 late() {
+	print("_______GEN 610K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__610Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__610Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__610Kg.binary",binary=T);
+}
+620000 late() {
+	print("_______GEN 620K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__620Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__620Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__620Kg.binary",binary=T);
+}
+630000 late() {
+	print("_______GEN 630K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__630Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__630Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__630Kg.binary",binary=T);
+}
+640000 late() {
+	print("_______GEN 640K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__640Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__640Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__640Kg.binary",binary=T);
+}
+650000 late() {
+	print("_______GEN 650K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__650Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__650Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__650Kg.binary",binary=T);
+}
+660000 late() {
+	print("_______GEN 660K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__660Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__660Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__660Kg.binary",binary=T);
+}
+670000 late() {
+	print("_______GEN 670K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__670Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__670Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__670Kg.binary",binary=T);
+}
+680000 late() {
+	print("_______GEN 680K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__680Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__680Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__680Kg.binary",binary=T);
+}
+690000 late() {
+	print("_______GEN 690K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__690Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__690Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__690Kg.binary",binary=T);
+}
+700000 late() {
+	print("_______GEN 700K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__700Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__700Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__700Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__700Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__700Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__700Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__700Kg.vcf");
+}
+710000 late() {
+	print("_______GEN 710K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__710Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__710Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__710Kg.binary",binary=T);
+}
+720000 late() {
+	print("_______GEN 720K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__720Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__720Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__720Kg.binary",binary=T);
+}
+730000 late() {
+	print("_______GEN 730K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__730Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__730Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__730Kg.binary",binary=T);
+}
+740000 late() {
+	print("_______GEN 740K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__740Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__740Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__740Kg.binary",binary=T);
+}
+750000 late() {
+	print("_______GEN 750K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__750Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__750Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__750Kg.binary",binary=T);
+}
+760000 late() {
+	print("_______GEN 760K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__760Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__760Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__760Kg.binary",binary=T);
+}
+770000 late() {
+	print("_______GEN 770K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__770Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__770Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__770Kg.binary",binary=T);
+}
+780000 late() {
+	print("_______GEN 780K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__780Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__780Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__780Kg.binary",binary=T);
+}
+790000 late() {
+	print("_______GEN 790K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__790Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__790Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__790Kg.binary",binary=T);
+}
+800000 late() {
+	print("_______GEN 800K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__800Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__800Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__800Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__800Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__800Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__800Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__800Kg.vcf");
+}
+810000 late() {
+	print("_______GEN 810K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__810Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__810Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__810Kg.binary",binary=T);
+}
+820000 late() {
+	print("_______GEN 820K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__820Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__820Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__820Kg.binary",binary=T);
+}
+830000 late() {
+	print("_______GEN 830K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__830Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__830Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__830Kg.binary",binary=T);
+}
+840000 late() {
+	print("_______GEN 840K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__840Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__840Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__840Kg.binary",binary=T);
+}
+850000 late() {
+	print("_______GEN 850K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__850Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__850Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__850Kg.binary",binary=T);
+}
+860000 late() {
+	print("_______GEN 860K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__860Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__860Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__860Kg.binary",binary=T);
+}
+870000 late() {
+	print("_______GEN 870K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__870Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__870Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__870Kg.binary",binary=T);
+}
+880000 late() {
+	print("_______GEN 880K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__880Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__880Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__880Kg.binary",binary=T);
+}
+890000 late() {
+	print("_______GEN 890K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__890Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__890Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__890Kg.binary",binary=T);
+}
+900000 late() {
+	print("_______GEN 900K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__900Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__900Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__900Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__900Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__900Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__900Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__900Kg.vcf");
+}
+910000 late() {
+	print("_______GEN 910K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__910Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__910Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__910Kg.binary",binary=T);
+}
+920000 late() {
+	print("_______GEN 920K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__920Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__920Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__920Kg.binary",binary=T);
+}
+930000 late() {
+	print("_______GEN 930K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__930Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__930Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__930Kg.binary",binary=T);
+}
+940000 late() {
+	print("_______GEN 940K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__940Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__940Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__940Kg.binary",binary=T);
+}
+950000 late() {
+	print("_______GEN 950K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__950Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__950Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__950Kg.binary",binary=T);
+}
+960000 late() {
+	print("_______GEN 960K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__960Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__960Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__960Kg.binary",binary=T);
+}
+970000 late() {
+	print("_______GEN 970K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__970Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__970Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__970Kg.binary",binary=T);
+}
+980000 late() {
+	print("_______GEN 980K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__980Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__980Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__980Kg.binary",binary=T);
+}
+990000 late() {
+	print("_______GEN 990K: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__990Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__990Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__990Kg.binary",binary=T);
+}
+1000000 late() {
+	print("_______GEN 1M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1000Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1000Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1000Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1000Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1000Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1000Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1000Kg.vcf");
+}
+1010000 late() {
+	print("_______GEN 1.01M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1010Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1010Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1010Kg.binary",binary=T);
+}
+1020000 late() {
+	print("_______GEN 1.02M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1020Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1020Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1020Kg.binary",binary=T);
+}
+1030000 late() {
+	print("_______GEN 1.03M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1030Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1030Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1030Kg.binary",binary=T);
+}
+1040000 late() {
+	print("_______GEN 1.04M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1040Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1040Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1040Kg.binary",binary=T);
+}
+1050000 late() {
+	print("_______GEN 1.05M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1050Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1050Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1050Kg.binary",binary=T);
+}
+1060000 late() {
+	print("_______GEN 1.06M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1060Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1060Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1060Kg.binary",binary=T);
+}
+1070000 late() {
+	print("_______GEN 1.07M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1070Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1070Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1070Kg.binary",binary=T);
+}
+1080000 late() {
+	print("_______GEN 1.08M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1080Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1080Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1080Kg.binary",binary=T);
+}
+1090000 late() {
+	print("_______GEN 1.09M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1090Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1090Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1090Kg.binary",binary=T);
+}
+1100000 late() {
+	print("_______GEN 1.10M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1100Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1100Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1100Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1100Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1100Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1100Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1100Kg.vcf");
+}
+1110000 late() {
+	print("_______GEN 1.11M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1110Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1110Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1110Kg.binary",binary=T);
+}
+1120000 late() {
+	print("_______GEN 1.12M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1120Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1120Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1120Kg.binary",binary=T);
+}
+1130000 late() {
+	print("_______GEN 1.13M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1130Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1130Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1130Kg.binary",binary=T);
+}
+1140000 late() {
+	print("_______GEN 1.14M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1140Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1140Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1140Kg.binary",binary=T);
+}
+1150000 late() {
+	print("_______GEN 1.15M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1150Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1150Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1150Kg.binary",binary=T);
+}
+1160000 late() {
+	print("_______GEN 1.16M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1160Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1160Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1160Kg.binary",binary=T);
+}
+1170000 late() {
+	print("_______GEN 1.17M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1170Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1170Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1170Kg.binary",binary=T);
+}
+1180000 late() {
+	print("_______GEN 1.18M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1180Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1180Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1180Kg.binary",binary=T);
+}
+1190000 late() {
+	print("_______GEN 1.19M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1190Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1190Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1190Kg.binary",binary=T);
+}
+1200000 late() {
+	print("_______GEN 1.20M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1200Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1200Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1200Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1200Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1200Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1200Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1200Kg.vcf");
+}
+1210000 late() {
+	print("_______GEN 1.21M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1210Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1210Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1210Kg.binary",binary=T);
+}
+1220000 late() {
+	print("_______GEN 1.22M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1220Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1220Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1220Kg.binary",binary=T);
+}
+1230000 late() {
+	print("_______GEN 1.23M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1230Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1230Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1230Kg.binary",binary=T);
+}
+1240000 late() {
+	print("_______GEN 1.24M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1240Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1240Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1240Kg.binary",binary=T);
+}
+1250000 late() {
+	print("_______GEN 1.25M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1250Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1250Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1250Kg.binary",binary=T);
+}
+1260000 late() {
+	print("_______GEN 1.26M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1260Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1260Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1260Kg.binary",binary=T);
+}
+1270000 late() {
+	print("_______GEN 1.27M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1270Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1270Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1270Kg.binary",binary=T);
+}
+1280000 late() {
+	print("_______GEN 1.28M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1280Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1280Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1280Kg.binary",binary=T);
+}
+1290000 late() {
+	print("_______GEN 1.29M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1290Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1290Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1290Kg.binary",binary=T);
+}
+1300000 late() {
+	print("_______GEN 1.30M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1300Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1300Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1300Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1300Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1300Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1300Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1300Kg.vcf");
+}
+1310000 late() {
+	print("_______GEN 1.31M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1310Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1310Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1310Kg.binary",binary=T);
+}
+1320000 late() {
+	print("_______GEN 1.32M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1320Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1320Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1320Kg.binary",binary=T);
+}
+1330000 late() {
+	print("_______GEN 1.33M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1330Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1330Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1330Kg.binary",binary=T);
+}
+1340000 late() {
+	print("_______GEN 1.34M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1340Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1340Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1340Kg.binary",binary=T);
+}
+1350000 late() {
+	print("_______GEN 1.35M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1350Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1350Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1350Kg.binary",binary=T);
+}
+1360000 late() {
+	print("_______GEN 1.36M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1360Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1360Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1360Kg.binary",binary=T);
+}
+1370000 late() {
+	print("_______GEN 1.37M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1370Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1370Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1370Kg.binary",binary=T);
+}
+1380000 late() {
+	print("_______GEN 1.38M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1380Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1380Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1380Kg.binary",binary=T);
+}
+1390000 late() {
+	print("_______GEN 1.39M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1390Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1390Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1390Kg.binary",binary=T);
+}
+1400000 late() {
+	print("_______GEN 1.40M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1400Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1400Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1400Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1400Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1400Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1400Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1400Kg.vcf");
+}
+1410000 late() {
+	print("_______GEN 1.41M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1410Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1410Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1410Kg.binary",binary=T);
+}
+1420000 late() {
+	print("_______GEN 1.42M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1420Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1420Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1420Kg.binary",binary=T);
+}
+1430000 late() {
+	print("_______GEN 1.43M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1430Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1430Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1430Kg.binary",binary=T);
+}
+1440000 late() {
+	print("_______GEN 1.44M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1440Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1440Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1440Kg.binary",binary=T);
+}
+1450000 late() {
+	print("_______GEN 1.45M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1450Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1450Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1450Kg.binary",binary=T);
+}
+1460000 late() {
+	print("_______GEN 1.46M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1460Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1460Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1460Kg.binary",binary=T);
+}
+1470000 late() {
+	print("_______GEN 1.47M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1470Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1470Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1470Kg.binary",binary=T);
+}
+1480000 late() {
+	print("_______GEN 1.48M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1480Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1480Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1480Kg.binary",binary=T);
+}
+1490000 late() {
+	print("_______GEN 1.49M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1490Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1490Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1490Kg.binary",binary=T);
+}
+1500000 late() {
+	print("_______GEN 1.50M: " + date() + " " + time() + "_______");
+	print("Saving treeSeq output to 10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1500Kg.tree and .binary");
+	sim.treeSeqOutput("10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1500Kg.tree");
+	sim.outputFull(filePath="10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1500Kg.binary",binary=T);
+	
+	print("Saving .vcf file with 1000 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1500Kg.vcf:");
+	p1.outputVCFSample(1000,replace=F,outputMultiallelics=F,filePath="1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1500Kg.vcf");
+	
+	print("Saving .vcf file with 30 individuals in 1000inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1500Kg.vcf:");
+	p1.outputVCFSample(30,replace=F,outputMultiallelics=F,filePath="30inds_10Ki_50Ms_56m8_4r8_simp100_dfeG_Ne_tree__1500Kg.vcf");
+	sim.simulationFinished();
+}
+
+function (float)estimateNe_Heterozygosity_fold(o<Subpopulation>$ subpop, o<MutationType>$ mutType)
+{
+	pi = calcHeterozygosity(subpop.genomes,sim.mutationsOfType(mutType));
+	return pi / (4 * MU);
+}
+
+function (float)estimateNe_Heterozygosity_all(o<Subpopulation>$ subpop)
+{
+	pi = calcHeterozygosity(subpop.genomes);
+	return pi / (4 * MU);
+}
+
+function (integer)tabulateFecundity(o<Subpopulation>$ subpop, i$ previous_N)
+{
+	parentIDs = subpop.individuals.pedigreeParentIDs;
+	rescaledParentIDs = parentIDs - min(parentIDs);
+	return tabulate(rescaledParentIDs, previous_N - 1);
+}
+
+function (float)estimateNe_Inbreeding(o<Subpopulation>$ subpop)
+{
+	previous_N = subpop.getValue("previous_N");
+	k = tabulateFecundity(subpop, previous_N);
+	return (previous_N * mean(k) - 2) / (mean(k) - 1 + var(k) / mean(k));
+}
